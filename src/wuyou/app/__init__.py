@@ -2,16 +2,17 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from langchain_ollama import OllamaLLM
-
+from loguru import logger
 from src.wuyou.app.MessageRouter import messageRouter
+from wuyou.app.PromptRouter import promptRouter
 
 
 # 生命周期管理器(启动和关闭时候会执行的)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("启动中")#在项目启动之前
+    logger.info("项目启动")#在项目启动之前
     yield
-    print("关闭中")#在项目关闭之前
+    logger.info("关闭中")#在项目关闭之前
 app = FastAPI(
     title="基础环境的搭建",
     version="1.0",
@@ -20,11 +21,8 @@ app = FastAPI(
 )
 # 子路由
 # 注册路由
-app.include_router(
-    messageRouter,
-    prefix="/message",
-    tags=["消息"])
-
+app.include_router(messageRouter,prefix="/message",tags=["消息"])
+app.include_router(promptRouter,prefix="/prompt",tags=["提示词模板"])
 
 # 测试
 @app.get('/test')
