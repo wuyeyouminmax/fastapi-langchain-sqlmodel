@@ -1,0 +1,25 @@
+[project]
+name = "wuyou"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "king",email = "3371715457@qq.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+]
+
+[tool.poetry]
+packages = [{include = "wuyou", from = "src"}]
+# python的包版本管理
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+uvicorn = "0.40.0"
+fastapi = "0.128.0"
+langchain-ollama = "1.0.1"
+pydantic = "2.12.5"
+langchain-community = "0.4.1"
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
