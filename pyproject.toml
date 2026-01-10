@@ -24,6 +24,10 @@ langchain-community = "0.4.1"
 loguru = "0.7.3"
 # 加载环境变量相关的
 dotenv = "0.9.9"
+# 引入sqlmodel
+sqlmodel = "0.0.31"
+# pg数据库用的
+asyncpg = "0.31.0"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"

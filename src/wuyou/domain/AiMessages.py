@@ -14,3 +14,7 @@ class MessageA(BaseModel):
         if len(v) > 15:
             raise ValueError("messageA 长度不能大于 15")
         return v
+
+class Saves(BaseModel):
+    type:str
+    content:str

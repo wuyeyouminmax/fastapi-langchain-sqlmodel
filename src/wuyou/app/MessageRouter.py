@@ -1,8 +1,15 @@
+from loguru import logger
+
 from fastapi import APIRouter
+from fastapi.params import Depends
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 
-from src.wuyou.domain.AiMessages import MessageA
+from src.wuyou.domain.AiMessages import MessageA, Saves
 from langchain_ollama import OllamaLLM
+
+from wuyou.app.db.SaveMessageDB import SaveMessageDB, create_save_message_db
+from wuyou.domain.po.SaveMessage import SaveMessage
+
 messageRouter = APIRouter()
 
 @messageRouter.post("/demo1")
@@ -29,3 +36,10 @@ async def demo3(data:str):
                     HumanMessage(data)]
     res = await llm.ainvoke(message_list)
     return res
+
+@messageRouter.post("/demo4")
+async def demo4(data:Saves,save_message_db:SaveMessageDB=Depends(create_save_message_db)):
+    """"""
+    logger.info(f"save_message_db={save_message_db}")
+    await save_message_db.save(SaveMessage(type=data.type,content=data.content))
+    return "添加成功"

@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from langchain_ollama import OllamaLLM
 from loguru import logger
-from src.wuyou.app.MessageRouter import messageRouter
+from wuyou.app.MessageRouter import messageRouter
 from wuyou.app.PromptRouter import promptRouter
 
 
