@@ -3,6 +3,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from langchain_ollama import OllamaLLM
 from loguru import logger
+
+from wuyou.app.ChainRouter import chainRouter
 from wuyou.app.MessageRouter import messageRouter
 from wuyou.app.PromptRouter import promptRouter
 
@@ -20,10 +22,10 @@ app = FastAPI(
     lifespan=lifespan,# 指定生命周期管理器
 )
 # 子路由
-# 注册路由
+# 注册路由 chainRouter
 app.include_router(messageRouter,prefix="/message",tags=["消息"])
 app.include_router(promptRouter,prefix="/prompt",tags=["提示词模板"])
-
+app.include_router(chainRouter,prefix="/chain",tags=["链式调用"])
 # 测试
 @app.get('/test')
 async def test(message:str):
