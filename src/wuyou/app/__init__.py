@@ -1,9 +1,11 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.params import Depends
 from langchain_ollama import OllamaLLM
 from loguru import logger
 
+from wuyou.agent.node.MessageGraph import get_message_graph, MessageGraph
 from wuyou.app.ChainRouter import chainRouter
 from wuyou.app.MessageRouter import messageRouter
 from wuyou.app.PromptRouter import promptRouter
@@ -35,3 +37,20 @@ async def test(message:str):
     )
     res = llm.invoke(message)
     return res
+
+@app.post('/demo1')
+async def demo1(data:int,message_graph:MessageGraph=Depends(get_message_graph)):
+    """
+    用户输入一个数字
+    让llm随机生成一个数字
+    比较大小
+    如果llm的数字大，发表获胜感谢
+    如果llm的数字小，发表失败的感想
+    :param data:
+    :param message_graph:
+    :return:
+    """
+    print(data)
+    # 1.入口
+    result = await message_graph.run_runnable(data)
+    return result
