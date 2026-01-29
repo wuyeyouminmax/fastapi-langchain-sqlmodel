@@ -28,6 +28,10 @@ dotenv = "0.9.9"
 sqlmodel = "0.0.31"
 # pg数据库用的
 asyncpg = "0.31.0"
+# langgraph
+langgraph = "1.0.7"
+# 导入chromadb
+chromadb  = "1.4.1"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
