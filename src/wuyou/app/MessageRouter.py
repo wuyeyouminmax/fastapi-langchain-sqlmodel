@@ -7,13 +7,16 @@ from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from src.wuyou.domain.AiMessages import MessageA, Saves
 from langchain_ollama import OllamaLLM
 
+from wuyou.agent.node.MessageGraph import MessageGraph
+from wuyou.agent.node.MessageNode import MessageNode, get_message_node
 from wuyou.app.db.SaveMessageDB import SaveMessageDB, create_save_message_db
 from wuyou.domain.po.SaveMessage import SaveMessage
 
 messageRouter = APIRouter()
 
 @messageRouter.post("/demo1")
-async def demo1():
+async def demo1(message_node:MessageNode=Depends(get_message_node)):
+    await message_node.demo_node()
     return "测试子路由"
 
 @messageRouter.post("/demo2")
@@ -43,3 +46,21 @@ async def demo4(data:Saves,save_message_db:SaveMessageDB=Depends(create_save_mes
     logger.info(f"save_message_db={save_message_db}")
     await save_message_db.save(SaveMessage(type=data.type,content=data.content))
     return "添加成功"
+
+@messageRouter.post('/demo5')
+async def demo5(data:int,message_node: MessageNode = Depends(get_message_node) ):
+    """
+    用户输入一个数字
+    让llm随机生成一个数字
+    比较大小
+    如果llm的数字大，发表获胜感谢
+    如果llm的数字小，发表失败的感想
+    :param data:
+    :param message_graph:
+    :return:
+    """
+    print(data)
+    # 1.入口
+    graph = MessageGraph()  # 图本身不持有 session
+    result = await graph.run_runnable(data, message_node)
+    return result
